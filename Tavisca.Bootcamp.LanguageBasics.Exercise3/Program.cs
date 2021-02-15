@@ -40,8 +40,88 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            // Add your code here.
-            throw new NotImplementedException();
+            int minValue = int.MaxValue;
+            for (int i = 0; i < mealArray.Length; i++)
+            {
+                if (indexArray[i] == 0 && mealArray[i] < minValue)
+                {
+                    minValue = mealArray[i];
+                }
+            }
+            for (int i = 0; i < mealArray.Length; i++)
+            {
+                if (mealArray[i] != minValue)
+                {
+                    indexArray[i] = 1;
+                }
+            }
+        }
+        public static void findMaxArrayValue(int[] mealArray, int[] indexArray)
+        {
+            int maxValue = -1;
+            for (int i = 0; i < mealArray.Length; i++)
+            {
+                if (indexArray[i] == 0 && mealArray[i] > maxValue)
+                {
+                    maxValue = mealArray[i];
+                }
+            }
+            for (int i = 0; i < mealArray.Length; i++)
+            {
+                if (mealArray[i] != maxValue)
+                {
+                    indexArray[i] = 1;
+                }
+            }
+
+        }
+        public static int[] SelectMeals(int[] protein, int[] carbs, int[] fats, string[] dietplan)
+        {
+            int[] returnMeal = new int[dietplan.Length];
+            int[] calories = new int[protein.Length];
+            int[] indexArray = new int[protein.Length];
+            for (int i = 0; i < protein.Length; i++)
+            {
+                calories[i] = protein[i] * 5 + carbs[i] * 5 + fats[i] * 9;
+            }
+
+            for (int i = 0; i < dietplan.Length; i++)
+            {
+                for (int j = 0; j < protein.Length; j++)
+                    indexArray[j] = 0;
+                foreach (var item in dietplan[i])
+                {
+                    switch (item)
+                    {
+                        case 't':
+                            findMinArrayIndex(calories, indexArray);
+                            break;
+                        case 'T':
+                            findMaxArrayValue(calories, indexArray);
+                            break;
+                        case 'f':
+                            findMinArrayIndex(fats, indexArray);
+                            break;
+                        case 'F':
+                            findMaxArrayValue(fats, indexArray);
+                            break;
+                        case 'p':
+                            findMinArrayIndex(protein, indexArray);
+                            break;
+                        case 'P':
+                            findMaxArrayValue(protein, indexArray);
+                            break;
+                        case 'c':
+                            findMinArrayIndex(carbs, indexArray);
+                            break;
+                        case 'C':
+                            findMaxArrayValue(carbs, indexArray);
+                            break;
+                    }
+                }
+                returnMeal[i] = Array.IndexOf(indexArray, 0);
+            }
+            return returnMeal;
         }
     }
 }
